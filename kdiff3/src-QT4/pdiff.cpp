@@ -636,6 +636,7 @@ void KDiff3App::initView()
    m_pCornerWidget = new QWidget( m_pMainWidget );
    pHScrollBarLayout->addWidget( m_pCornerWidget );
 
+   m_pMergeResultWindow->setHorizScrollBar(m_pHScrollBar);
 
    connect( m_pDiffVScrollBar, SIGNAL(valueChanged(int)), m_pOverview, SLOT(setFirstLine(int)));
    connect( m_pDiffVScrollBar, SIGNAL(valueChanged(int)), m_pDiffTextWindow1, SLOT(setFirstLine(int)));

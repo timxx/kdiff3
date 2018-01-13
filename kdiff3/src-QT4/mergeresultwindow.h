@@ -27,6 +27,7 @@
 #include <QTextLayout>
 
 class QPainter;
+class QScrollBar;
 
 class Overview : public QWidget
 {
@@ -138,6 +139,8 @@ public:
    void setSelection( int firstLine, int startPos, int lastLine, int endPos );
    void setOverviewMode( Overview::e_OverviewMode eOverviewMode );
    Overview::e_OverviewMode getOverviewMode();
+
+   inline void setHorizScrollBar(QScrollBar* pScrollBar) { m_horizScrollBar = pScrollBar; }
 public slots:
    void setFirstLine(int firstLine);
    void setHorizScrollOffset(int horizScrollOffset);
@@ -194,6 +197,10 @@ private:
    int m_delayedDrawTimer;
    Overview::e_OverviewMode m_eOverviewMode;
    QString m_persistentStatusMessage;
+
+   QScrollBar* m_horizScrollBar;
+
+private:
    void showUnsolvedConflictsStatusMessage();
 
 private:

@@ -48,6 +48,7 @@
 #include <QPaintEvent>
 #include <QTextStream>
 #include <QMimeData>
+#include <QScrollBar>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -89,6 +90,8 @@ MergeResultWindow::MergeResultWindow(
    m_pStatusBar = pStatusBar;
    if (m_pStatusBar)
       connect( m_pStatusBar, SIGNAL(messageChanged(const QString&)), this, SLOT(slotStatusMessageChanged(const QString&)) );
+
+   m_horizScrollBar = 0;
 
    m_pOptions = pOptions;
    m_bPaintingAllowed = false;
@@ -2133,6 +2136,10 @@ void MergeResultWindow::mouseMoveEvent ( QMouseEvent * e )
       }
       if ( e->y() < topLineYOffset )    deltaY=-1;
       if ( e->y() > height() )          deltaY=+1;
+
+      if ( m_horizScrollBar && (deltaX + m_horizScrollBar->value()) < 0 )
+          deltaX = 0;
+
       m_scrollDeltaX = deltaX;
       m_scrollDeltaY = deltaY;
       if ( deltaX != 0 || deltaY!= 0)
