@@ -1646,40 +1646,11 @@ int convertToPosInText( const QString& /*s*/, int posOnScreen, int /*tabSize*/ )
    return posOnScreen;
 }
 
-//   int localPosOnScreen = 0;
-//   int size=s.length();
-//   for ( int i=0; i<size; ++i )
-//   {
-//      if ( localPosOnScreen>=posOnScreen )
-//         return i;
-
-//      // All letters except tabulator have width one.
-//      int letterWidth = s[i]!='\t' ? 1 : tabber( localPosOnScreen, tabSize );
-
-//      localPosOnScreen += letterWidth;
-
-//      if ( localPosOnScreen>posOnScreen )
-//         return i;
-//   }
-//   return size;
-//}
-
-
 /// Converts the index into the text to a cursor-posOnScreen considering tabulators.
 int convertToPosOnScreen( const QString& /*p*/, int posInText, int /*tabSize*/ )
 {
    return posInText;
 }
-//   int posOnScreen = 0;
-//   for ( int i=0; i<posInText; ++i )
-//   {
-//      // All letters except tabulator have width one.
-//      int letterWidth = p[i]!='\t' ? 1 : tabber( posOnScreen, tabSize );
-
-//      posOnScreen += letterWidth;
-//   }
-//   return posOnScreen;
-//}
 
 QVector<QTextLayout::FormatRange> MergeResultWindow::getTextLayoutForLine(int line, const QString& str, QTextLayout& textLayout )
 {
@@ -1766,25 +1737,6 @@ void MergeResultWindow::writeLine(
          p.setClipRect( QRectF(xOffset,0,width()-xOffset,height()) );
       else
          p.setClipRect( QRectF(0,0,width()-xOffset,height()) );
-
-      int outPos = 0;
-      QString s;
-      int size = str.length();
-      for ( int i=0; i<size; ++i )
-      {
-         int spaces = 1;
-         if ( str[i]=='\t' )
-         {
-            spaces = tabber( outPos, m_pOptions->m_tabSize );
-            for( int j=0; j<spaces; ++j )
-               s+=' ';
-         }
-         else
-         {
-            s+=str[i];
-         }
-         outPos += spaces;
-      }
 
       p.setPen( m_pOptions->m_fgColor );
 
@@ -2604,22 +2556,12 @@ QString MergeResultWindow::getSelection()
             {
                const QString str = mel.getString( this );
 
-               // Consider tabs
-
                for( int i=0; i<str.length(); ++i )
                {
-                  int spaces = 1;
-                  if ( str[i]=='\t' )
-                  {
-                     spaces = tabber( outPos, m_pOptions->m_tabSize );
-                  }
-
-                  if( m_selection.within( line, outPos ) )
+                  if( m_selection.within( line, outPos++ ) )
                   {
                      selectionString += str[i];
                   }
-
-                  outPos += spaces;
                }
             }
             else if ( mel.isConflict() )
