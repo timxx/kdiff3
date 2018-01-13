@@ -6,6 +6,9 @@ include (MacroLibrary)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+if (NOT MSVC)
+	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+endif()
 
 include_directories( 
     ${KDE4_INCLUDE_DIR} 
