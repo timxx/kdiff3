@@ -6,6 +6,54 @@ if (NOT GETTEXT_MSGFMT_EXECUTABLE)
 MESSAGE(FATAL_ERROR "Please install msgmerge binary")
 endif (NOT GETTEXT_MSGFMT_EXECUTABLE)
 
+if (NOT BUILD_WITH_KDE4)
+    # override the cmake builtin one, which requires PO_FILES
+    MACRO(GETTEXT_PROCESS_PO_FILES _lang)
+       SET(_gmoFiles)
+       SET(_args ${ARGN})
+       SET(_addToAll)
+       SET(_installDest)
+
+       LIST(GET _args 0 _tmp)
+       IF("${_tmp}" STREQUAL "ALL")
+          SET(_addToAll ALL)
+          LIST(REMOVE_AT _args 0)
+       ENDIF("${_tmp}" STREQUAL "ALL")
+
+       LIST(GET _args 0 _tmp)
+       IF("${_tmp}" STREQUAL "INSTALL_DESTINATION")
+          LIST(GET _args 1 _installDest )
+          LIST(REMOVE_AT _args 0 1)
+       ENDIF("${_tmp}" STREQUAL "INSTALL_DESTINATION")
+
+       FOREACH(_current_PO_FILE ${_args})
+          GET_FILENAME_COMPONENT(_name ${_current_PO_FILE} NAME)
+          STRING(REGEX REPLACE "^(.+)(\\.[^.]+)$" "\\1" _basename ${_name})
+          SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.gmo)
+          add_custom_command(OUTPUT ${_gmoFile}
+                COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_gmoFile} ${_current_PO_FILE}
+                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                DEPENDS ${_current_PO_FILE}
+             )
+
+          IF(_installDest)
+             INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.gmo DESTINATION ${_installDest}/${_lang}/LC_MESSAGES/ RENAME ${_basename}.mo)
+          ENDIF(_installDest)
+          LIST(APPEND _gmoFiles ${_gmoFile})
+       ENDFOREACH(_current_PO_FILE)
+
+       IF(NOT TARGET pofiles)
+          ADD_CUSTOM_TARGET(pofiles)
+       ENDIF()
+
+       _GETTEXT_GET_UNIQUE_TARGET_NAME(pofiles uniqueTargetName)
+
+       ADD_CUSTOM_TARGET(${uniqueTargetName} ${_addToAll} DEPENDS ${_gmoFiles})
+
+       ADD_DEPENDENCIES(pofiles ${uniqueTargetName})
+    ENDMACRO(GETTEXT_PROCESS_PO_FILES)
+endif()
+
 add_subdirectory(ar)
 add_subdirectory(bg)
 add_subdirectory(br)
