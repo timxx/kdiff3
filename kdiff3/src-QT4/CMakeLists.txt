@@ -31,6 +31,10 @@ if (WIN32)
         ${kdiff3_SRCS}
         kdiff3win.rc
         )
+    set(_TYPE WIN32)
+    if (BUILD_WITH_QT5)
+        set(_WINMAINLIB Qt5::WinMain)
+    endif()
 endif()
 
 set(kdiff3_HDRS
@@ -62,7 +66,8 @@ else()
     else()
         QT4_WRAP_CPP(kdiff3_HDRS_MOC ${kdiff3_HDRS})
     endif()
-    add_executable(kdiff3
+
+    add_executable(kdiff3 ${_TYPE}
         ${kdiff3_SRCS}
         ${kdiff3_HDRS}
         ${kdiff3_HDRS_MOC}
@@ -71,7 +76,11 @@ else()
         )
 endif()
 
-target_link_libraries(kdiff3  ${KDE4_KPARTS_LIBS} ${QT_LIBRARIES})
+target_link_libraries(kdiff3
+    ${KDE4_KPARTS_LIBS}
+    ${QT_LIBRARIES}
+    ${_WINMAINLIB}
+    )
 
 install(TARGETS kdiff3 ${INSTALL_TARGETS_DEFAULT_ARGS})
 
