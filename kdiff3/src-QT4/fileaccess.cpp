@@ -1618,7 +1618,7 @@ bool FileAccessJobHandler::listDir( t_DirectoryList* pDirList, bool bRecursive, 
          }
 #else
          QString pattern ="*.*";
-         WIN32_FIND_DATA findData;
+         WIN32_FIND_DATAW findData;
 
          Qt::HANDLE searchHandle = FindFirstFileW( (const wchar_t*)pattern.utf16(), &findData );
 
