@@ -5,7 +5,12 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 OLD)
 endif()
 
-set(BUILD_WITH "kde4" CACHE STRING "Build with KDE4 or only Qt libs, can be kde4, qt4 or qt5")
+set(_def_libs "kde4")
+if (WIN32)
+    set(_def_libs "qt5")
+endif()
+
+set(BUILD_WITH "${_def_libs}" CACHE STRING "Build with KDE4 or only Qt libs, can be kde4, qt4 or qt5")
 set(BUILD_WITH_KDE4 FALSE)
 set(BUILD_WITH_QT5 FALSE)
 
