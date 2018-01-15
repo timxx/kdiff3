@@ -41,6 +41,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+include(cmake/macros.cmake)
 
 if (NOT BUILD_WITH_KDE4)
     set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
@@ -54,9 +55,23 @@ if (NOT BUILD_WITH_KDE4)
     endif()
 endif()
 
+if (BUILD_WITH_QT5)
+    copy_qt_libs(${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+        Qt5::Core
+        Qt5::Gui
+        Qt5::Widgets
+        Qt5::PrintSupport
+        )
+else()
+    copy_qt_libs(${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+        Qt4::QtCore
+        Qt4::QtGui
+        )
+endif()
+
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 if (NOT MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 endif()
 
 include_directories( 
