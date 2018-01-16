@@ -76,6 +76,8 @@ else()
         )
 endif()
 
+target_enable_visual_styles(kdiff3)
+
 target_link_libraries(kdiff3
     ${KDE4_KPARTS_LIBS}
     ${QT_LIBRARIES}

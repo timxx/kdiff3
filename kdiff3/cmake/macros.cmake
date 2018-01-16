@@ -11,3 +11,11 @@ macro(COPY_QT_LIBS target_dir)
         endforeach()
     endif()
 endmacro()
+
+macro(TARGET_ENABLE_VISUAL_STYLES target)
+    if (MSVC)
+        set_target_properties(${target}
+            PROPERTIES LINK_FLAGS "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\""
+            )
+    endif()
+endmacro()

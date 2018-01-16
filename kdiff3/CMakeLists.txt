@@ -77,6 +77,8 @@ endif()
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+else()
+    add_definitions(-DUNICODE -D_UNICODE)
 endif()
 
 include_directories( 
@@ -93,6 +95,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kdiff3.h.cmake ${CMAKE_CURRENT
 
 add_subdirectory(src-QT4)
 add_subdirectory(po)
+if (WIN32)
+    add_subdirectory(diff_ext_for_kdiff3)
+endif()
 
 if (BUILD_WITH_KDE4)
     add_subdirectory(doc)
