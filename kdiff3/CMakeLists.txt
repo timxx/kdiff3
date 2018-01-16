@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 project(kdiff3)
 
 if(POLICY CMP0020)
-    cmake_policy(SET CMP0020 OLD)
+    cmake_policy(SET CMP0020 NEW)
 endif()
 
 set(_def_libs "kde4")

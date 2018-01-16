@@ -32,7 +32,7 @@ if (WIN32)
         kdiff3win.rc
         )
     set(_TYPE WIN32)
-    if (BUILD_WITH_QT5)
+    if (BUILD_WITH_QT5 AND NOT (POLICY CMP0020))
         set(_WINMAINLIB Qt5::WinMain)
     endif()
 endif()
