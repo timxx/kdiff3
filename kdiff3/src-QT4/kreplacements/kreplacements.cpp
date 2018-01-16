@@ -982,6 +982,10 @@ KApplication::KApplication()
    #if ! ( defined(_WIN32) || defined(Q_OS_OS2) )
    parseOptions();
    #endif
+
+   QIcon icon = QIcon::fromTheme(s_appName);
+   if (!icon.isNull())
+       setWindowIcon(icon);
 }
 
 void KApplication::parseOptions()
