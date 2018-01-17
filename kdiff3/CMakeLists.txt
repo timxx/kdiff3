@@ -52,8 +52,9 @@ if (NOT BUILD_WITH_KDE4)
     set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
                                      LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
     set(XDG_APPS_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/applications")
-    set(LOCALE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/locale")
+    set(LOCALE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/kdiff3/translations")
     set(ICON_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/icons")
+    set(TRANSLATION_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin/translations")
 
     if (WIN32)
         set(QT_USE_QTMAIN TRUE)

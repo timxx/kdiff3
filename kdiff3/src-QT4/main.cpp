@@ -247,13 +247,18 @@ int main(int argc, char *argv[])
    QTranslator qtTranslator( 0 );
    if (locale != "en_orig")
    {
-      if ( locale == "Auto" || locale.isEmpty() )
-         locale = locale = QLocale::system().name().left(2);
+      bool useSysLocale = locale == "Auto" || locale.isEmpty();
+      if (useSysLocale)
+         locale = QLocale::system().name();
          
-      QString translationDir = getTranslationDir(locale);
-      kdiff3Translator.load( QString("kdiff3_")+locale, translationDir );
+      QString translationDir = getTranslationDir();
+      if (!kdiff3Translator.load(QLatin1String("kdiff3_") + locale, translationDir))
+      {
+         if (useSysLocale)
+            kdiff3Translator.load(QLatin1String("kdiff3_") + QLocale::system().name().left(2));
+      }
       app.installTranslator( &kdiff3Translator );
-      
+
       qtTranslator.load( QString("qt_")+locale, translationDir );
       app.installTranslator( &qtTranslator );
    }

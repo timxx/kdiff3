@@ -18,6 +18,7 @@
 
 #include "kreplacements.h"
 #include "common.h"
+#include "config-kdiff3.h"
 
 #include <assert.h>
 
@@ -116,19 +117,19 @@ static void showHelp()
    #endif
 }
 
-QString getTranslationDir(const QString& locale)
+QString getTranslationDir()
 {
-   #if defined(_WIN32) || defined(Q_OS_OS2)
-      (void) locale; 
-      QString exePath;
-      exePath = QCoreApplication::applicationDirPath();
-      return exePath+"/translations";
-   #elif defined(__APPLE__)
-      QString exePath = QCoreApplication::applicationDirPath();
-      return exePath+"/../Resources/translations";
-   #else
-      return  (QString)"/usr/share/locale/" + locale + "/LC_MESSAGES";
-   #endif
+    QString exePath = QCoreApplication::applicationDirPath();
+#if !defined(__APPLE__)
+    QString transDir = exePath + "/translations";
+#else
+    QString transDir = exePath + "/../Resources/translations";
+#endif
+    QFileInfo fi(transDir);
+    if (fi.exists() && fi.isDir())
+        return transDir;
+
+    return QString::fromLocal8Bit(TRANSLAIONS_DIR);
 }
 
 // static

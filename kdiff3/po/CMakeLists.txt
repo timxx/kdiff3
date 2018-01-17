@@ -1,3 +1,36 @@
+if (NOT BUILD_WITH_KDE4)
+    if (BUILD_WITH_QT5)
+        set(suffix "qt5")
+    else()
+        set(suffix "qt4")
+    endif()
+    find_program(LCONVERT_EXECUTABLE NAMES lconvert-${suffix} lconvert DOC "lconvert path")
+
+    file(GLOB_RECURSE po_files "${CMAKE_CURRENT_SOURCE_DIR}" "kdiff3.po")
+
+    foreach(po_file ${po_files})
+        string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" _locale ${po_file})
+        string(REPLACE "/kdiff3.po" "" _locale ${_locale})
+
+        set(filename "kdiff3_${_locale}")
+        set(qm_file "${TRANSLATION_OUTPUT_DIR}/${filename}.qm")
+        list(APPEND qm_files ${qm_file})
+
+        add_custom_command(
+            OUTPUT ${qm_file}
+            COMMAND ${LCONVERT_EXECUTABLE} ARGS -if po -of qm -o ${qm_file} ${po_file}
+            DEPENDS ${po_file}
+            COMMENT "Generating ${filename}.qm"
+            )
+
+        string(REPLACE "@" "_" target ${filename})
+        add_custom_target(${target} ALL DEPENDS ${qm_file})
+    endforeach()
+
+    install(FILES ${qm_files} DESTINATION ${LOCALE_INSTALL_DIR})
+    return()
+endif()
+
 find_package(Gettext REQUIRED)
 if (NOT GETTEXT_MSGMERGE_EXECUTABLE)
 MESSAGE(FATAL_ERROR "Please install msgmerge binary")
@@ -5,54 +38,6 @@ endif (NOT GETTEXT_MSGMERGE_EXECUTABLE)
 if (NOT GETTEXT_MSGFMT_EXECUTABLE)
 MESSAGE(FATAL_ERROR "Please install msgmerge binary")
 endif (NOT GETTEXT_MSGFMT_EXECUTABLE)
-
-if (NOT BUILD_WITH_KDE4)
-    # override the cmake builtin one, which requires PO_FILES
-    MACRO(GETTEXT_PROCESS_PO_FILES _lang)
-       SET(_gmoFiles)
-       SET(_args ${ARGN})
-       SET(_addToAll)
-       SET(_installDest)
-
-       LIST(GET _args 0 _tmp)
-       IF("${_tmp}" STREQUAL "ALL")
-          SET(_addToAll ALL)
-          LIST(REMOVE_AT _args 0)
-       ENDIF("${_tmp}" STREQUAL "ALL")
-
-       LIST(GET _args 0 _tmp)
-       IF("${_tmp}" STREQUAL "INSTALL_DESTINATION")
-          LIST(GET _args 1 _installDest )
-          LIST(REMOVE_AT _args 0 1)
-       ENDIF("${_tmp}" STREQUAL "INSTALL_DESTINATION")
-
-       FOREACH(_current_PO_FILE ${_args})
-          GET_FILENAME_COMPONENT(_name ${_current_PO_FILE} NAME)
-          STRING(REGEX REPLACE "^(.+)(\\.[^.]+)$" "\\1" _basename ${_name})
-          SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.gmo)
-          add_custom_command(OUTPUT ${_gmoFile}
-                COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_gmoFile} ${_current_PO_FILE}
-                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                DEPENDS ${_current_PO_FILE}
-             )
-
-          IF(_installDest)
-             INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.gmo DESTINATION ${_installDest}/${_lang}/LC_MESSAGES/ RENAME ${_basename}.mo)
-          ENDIF(_installDest)
-          LIST(APPEND _gmoFiles ${_gmoFile})
-       ENDFOREACH(_current_PO_FILE)
-
-       IF(NOT TARGET pofiles)
-          ADD_CUSTOM_TARGET(pofiles)
-       ENDIF()
-
-       _GETTEXT_GET_UNIQUE_TARGET_NAME(pofiles uniqueTargetName)
-
-       ADD_CUSTOM_TARGET(${uniqueTargetName} ${_addToAll} DEPENDS ${_gmoFiles})
-
-       ADD_DEPENDENCIES(pofiles ${uniqueTargetName})
-    ENDMACRO(GETTEXT_PROCESS_PO_FILES)
-endif()
 
 add_subdirectory(ar)
 add_subdirectory(bg)

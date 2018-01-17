@@ -45,7 +45,7 @@ class QLabel;
 #include <map>
 #include <list>
 
-QString getTranslationDir(const QString&);
+QString getTranslationDir();
 
 class KMainWindow;
 class KAction;
