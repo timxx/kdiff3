@@ -7,6 +7,7 @@ if (NOT BUILD_WITH_KDE4)
     find_program(LCONVERT_EXECUTABLE NAMES lconvert-${suffix} lconvert DOC "lconvert path")
 
     file(GLOB_RECURSE po_files "${CMAKE_CURRENT_SOURCE_DIR}" "kdiff3.po")
+    file(MAKE_DIRECTORY ${TRANSLATION_OUTPUT_DIR})
 
     foreach(po_file ${po_files})
         string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" _locale ${po_file})
