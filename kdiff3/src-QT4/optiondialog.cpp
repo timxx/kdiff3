@@ -1500,28 +1500,15 @@ static const char* countryMap[]={
    gbox->addWidget( pLanguage, line, 1 );
    pLanguage->addItem( "Auto" );  // Must not translate, won't work otherwise!
    pLanguage->addItem( "en_orig" );
-      
-#if !defined(_WIN32) && !defined(Q_OS_OS2) && !defined(__APPLE__)
-   // Read directory: Find all kdiff3_*.qm-files and insert the found files here
-   QDir localeDir( "/usr/share/locale" ); // See also kreplacements.cpp: getTranslationDir()
-   QStringList dirList = localeDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
 
-   for( int i = 0; i<dirList.size(); ++i )
-   {
-       QString languageId = dirList[i];
-       if ( ! QFile::exists( "/usr/share/locale/" + languageId + "/LC_MESSAGES/kdiff3.qm" ) )
-           continue;
-#else
    // Read directory: Find all kdiff3_*.qm-files and insert the found files here
-   
-   QDir localeDir( getTranslationDir(QString()) );
+   QDir localeDir( getTranslationDir() );
    QStringList fileList = localeDir.entryList( QStringList("kdiff3_*.qm") , QDir::Files, QDir::Name );
    for( int i=0; i<fileList.size(); ++i )
    {      
       QString fileName = fileList[i];
       // Skip the "kdiff3_" and omit the .qm
       QString languageId = fileName.mid(7, fileName.length()-10 );
-#endif
 
       unsigned int countryIdx=0;
       for(countryIdx=0; countryIdx< sizeof(countryMap)/sizeof(countryMap[0]); ++countryIdx )
