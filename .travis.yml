@@ -15,7 +15,7 @@ before_install:
 
 script:
   - mkdir releaseQt5
-  - cd realseQt5
+  - cd releaseQt5
   - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=qt5
   - make
   - cd -
