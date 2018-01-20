@@ -1,0 +1,25 @@
+language: cpp
+sudo: required
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+    - os: linux
+      compiler: clang
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq qtbase5-dev qt5-default qttools5-dev-tools
+  - sudo apt-get install libqt4-dev
+
+script:
+  - mkdir releaseQt5
+  - cd realseQt5
+  - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=qt5
+  - make
+  - cd -
+  - mkdir releaseQt4
+  - cd releaseQt4
+  - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=qt4
+  - make
