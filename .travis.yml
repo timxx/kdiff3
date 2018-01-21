@@ -5,15 +5,14 @@ env:
   matrix:
     - "BUILD_WITH=kde4 BUILD_LIBS='kdelibs5-dev'"
     - "BUILD_WITH=qt5 BUILD_LIBS='qtbase5-dev qt5-default qttools5-dev-tools'"
-    - "BUILD_WITH=qt4 BUILD_LIBS='libqt4-dev'"
+    - "BUILD_WITH=qt4 BUILD_LIBS='libqt4-dev qt4-dev-tools'"
 
+compiler:
+  - gcc
+  - clang
 
-matrix:
-  include:
-    - os: linux
-      compiler: gcc
-    - os: linux
-      compiler: clang
+os:
+  - linux
 
 before_install:
   - sudo apt-get update -qq
