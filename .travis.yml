@@ -1,6 +1,13 @@
 language: cpp
 sudo: required
 
+env:
+  matrix:
+    - "BUILD_WITH=kde4 BUILD_LIBS='kdelibs5-dev'"
+    - "BUILD_WITH=qt5 BUILD_LIBS='qtbase5-dev qt5-default qttools5-dev-tools'"
+    - "BUILD_WITH=qt4 BUILD_LIBS='libqt4-dev'"
+
+
 matrix:
   include:
     - os: linux
@@ -10,16 +17,10 @@ matrix:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq qtbase5-dev qt5-default qttools5-dev-tools
-  - sudo apt-get install libqt4-dev
+  - sudo apt-get install -qq ${BUILD_LIBS}
 
 script:
-  - mkdir releaseQt5
-  - cd releaseQt5
-  - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=qt5
-  - make
-  - cd -
-  - mkdir releaseQt4
-  - cd releaseQt4
-  - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=qt4
-  - make
+  - mkdir release_${BUILD_WITH}
+  - cd release_${BUILD_WITH}
+  - cmake ../kdiff3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH=${BUILD_WITH}
+  - make -j
