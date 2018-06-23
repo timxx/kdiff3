@@ -8,3 +8,5 @@ add_library(diff_ext_for_kdiff3 SHARED
     server.cpp
     diff_ext_for_kdiff3_msvc.def
     )
+
+install(TARGETS diff_ext_for_kdiff3 ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(kdiff3)
 
+set(VERSION_MAJOR 1)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 0)
+set(VERSION_STR "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
 if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
@@ -58,11 +63,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/mod
 include(cmake/macros.cmake)
 
 if (NOT BUILD_WITH_KDE4)
-    set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
-                                     LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
-    set(XDG_APPS_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/applications")
-    set(LOCALE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/kdiff3/translations")
-    set(ICON_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/icons")
+    if (WIN32)
+        set(INSTALL_TARGETS_DEFAULT_ARGS  DESTINATION ".")
+        set(LOCALE_INSTALL_DIR "translations")
+    else()
+        set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+                                         LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+        set(XDG_APPS_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/applications")
+        set(LOCALE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/kdiff3/translations")
+        set(ICON_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/icons")
+    endif()
     set(TRANSLATION_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin/translations")
 
     if (WIN32)
@@ -107,6 +117,7 @@ add_subdirectory(src-QT4)
 add_subdirectory(po)
 if (WIN32)
     add_subdirectory(diff_ext_for_kdiff3)
+    add_subdirectory(windows_installer)
 endif()
 
 if (BUILD_WITH_KDE4)

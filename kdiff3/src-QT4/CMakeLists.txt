@@ -38,7 +38,6 @@ if (WIN32)
 endif()
 
 set(kdiff3_HDRS
-    version.h
     common.h
     diff.h
     difftextwindow.h
@@ -95,15 +94,16 @@ if (BUILD_WITH_KDE4)
     install( FILES  kdiff3_shell.rc DESTINATION ${DATA_INSTALL_DIR}/kdiff3 )
 endif()
 
-install( PROGRAMS  kdiff3.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+if (NOT WIN32)
+    install( PROGRAMS  kdiff3.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 
-if (BUILD_WITH_KDE4)
-    kde4_install_icons( ${ICON_INSTALL_DIR} )
-else()
-    install(FILES hi16-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/hicolor/16x16/apps" RENAME kdiff3.png)
-    install(FILES hi32-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/hicolor/32x32/apps" RENAME kdiff3.png)
-    install(FILES lo16-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/locolor/16x16/apps" RENAME kdiff3.png)
-    install(FILES lo32-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/locolor/32x32/apps" RENAME kdiff3.png)
+    if (BUILD_WITH_KDE4)
+        kde4_install_icons( ${ICON_INSTALL_DIR} )
+    else()
+        install(FILES hi16-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/hicolor/16x16/apps" RENAME kdiff3.png)
+        install(FILES hi32-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/hicolor/32x32/apps" RENAME kdiff3.png)
+        install(FILES lo16-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/locolor/16x16/apps" RENAME kdiff3.png)
+        install(FILES lo32-app-kdiff3.png DESTINATION "${ICON_INSTALL_DIR}/locolor/32x32/apps" RENAME kdiff3.png)
 endif()
 
-
+endif()

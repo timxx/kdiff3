@@ -34,7 +34,6 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include "version.h"
 
 KDiff3Part::KDiff3Part( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent )
@@ -298,7 +297,7 @@ KComponentData* KDiff3PartFactory::instance()
 {
     if( !s_instance )
     {
-        s_about = new KAboutData(QByteArray("kdiff3part"), QByteArray("kdiff3part"), ki18n("KDiff3Part"), QByteArray(VERSION));
+        s_about = new KAboutData(QByteArray("kdiff3part"), QByteArray("kdiff3part"), ki18n("KDiff3Part"), QByteArray(VERSION_STR));
         s_about->addAuthor(ki18n("Joachim Eibl"), KLocalizedString(), QByteArray("joachim.eibl at gmx.de"));
         s_instance = new KComponentData(s_about);
     }

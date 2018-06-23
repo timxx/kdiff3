@@ -9,3 +9,5 @@
 #ifndef BUILD_WITH_KDE4
 #  include "kreplacements.h"
 #endif
+
+#define VERSION_STR "@VERSION_STR@"

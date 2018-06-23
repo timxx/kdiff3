@@ -20,7 +20,6 @@
 #include <klocale.h>
 #include "kdiff3_shell.h"
 #include <kstandarddirs.h>
-#include "version.h"
 #include <QTextCodec>
 #include <QFile>
 #include <QTextStream>
@@ -166,7 +165,7 @@ int main(int argc, char *argv[])
    const QByteArray& appName = QByteArray("kdiff3");
    const QByteArray& appCatalog = appName;
    const KLocalizedString i18nName = ki18n("kdiff3");
-   QByteArray appVersion = QByteArray( VERSION );
+   QByteArray appVersion = QByteArray( VERSION_STR );
    if ( sizeof(void*)==8 )
       appVersion += " (64 bit)";
    else if ( sizeof(void*)==4 )

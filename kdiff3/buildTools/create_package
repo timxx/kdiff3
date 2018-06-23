@@ -3,7 +3,7 @@
 # Param $1 is the destination directory
 
 if [ ! -z $1 -a  -d $1 ]; then
-   export VERSION=`sed -n  "s/.*\"\(.*\)\"/\1/p" src-QT4/version.h`
+   export VERSION=` sed -n "s/set(VERSION_.* \([0-9]*\))/\1/p" CMakeLists.txt | tr '\n' '.' | sed 's/.$//'`
    export DEST=$1/kdiff3-$VERSION
 
    echo $DEST
