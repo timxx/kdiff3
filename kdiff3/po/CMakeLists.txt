@@ -23,11 +23,9 @@ if (NOT BUILD_WITH_KDE4)
             DEPENDS ${po_file}
             COMMENT "Generating ${filename}.qm"
             )
-
-        string(REPLACE "@" "_" target ${filename})
-        add_custom_target(${target} ALL DEPENDS ${qm_file})
     endforeach()
 
+    add_custom_target(i18n ALL DEPENDS ${qm_files})
     install(FILES ${qm_files} DESTINATION ${LOCALE_INSTALL_DIR})
     return()
 endif()
