@@ -64,8 +64,10 @@ include(cmake/macros.cmake)
 
 if (NOT BUILD_WITH_KDE4)
     if (WIN32)
-        set(INSTALL_TARGETS_DEFAULT_ARGS  DESTINATION ".")
-        set(LOCALE_INSTALL_DIR "translations")
+        set(INSTALL_ROOT ".")
+        set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${INSTALL_ROOT}"
+                                         LIBRARY DESTINATION "${INSTALL_ROOT}")
+        set(LOCALE_INSTALL_DIR "${INSTALL_ROOT}/translations")
     else()
         set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
                                          LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")

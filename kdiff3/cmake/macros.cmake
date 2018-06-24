@@ -11,7 +11,7 @@ macro(COPY_QT_LIBS target_dir)
             list(APPEND qt_files ${_location})
         endforeach()
 
-        install(FILES ${qt_files} ${INSTALL_TARGETS_DEFAULT_ARGS})
+        install(FILES ${qt_files} DESTINATION "${INSTALL_ROOT}")
         get_filename_component(QT_DLL_DIR ${_location} PATH)
         # TODO: Qt4 support
         if (BUILD_WITH_QT5)
@@ -20,27 +20,21 @@ macro(COPY_QT_LIBS target_dir)
             endif()
             set(_plugin_dir "${QT_DLL_DIR}/../plugins")
 
-            set(_qwindows ${_plugin_dir}/platforms/qwindows${_suffix}.dll)
-            set(_qstyle ${_plugin_dir}/styles/qwindowsvistastyle${_suffix}.dll)
-            set(_qprint ${_plugin_dir}/printsupport/windowsprintersupport${_suffix}.dll)
+            set(_plg_names qwindows qwindowsvistastyle windowsprintersupport)
+            set(_plg_dirs platforms styles printsupport)
 
-            file(MAKE_DIRECTORY "${target_dir}/plugins/platforms")
-            file(MAKE_DIRECTORY "${target_dir}/plugins/styles")
-            file(MAKE_DIRECTORY "${target_dir}/plugins/printsupport")
+            foreach (i RANGE 2)
+                list(GET _plg_names ${i} _name)
+                list(GET _plg_dirs ${i} _dir)
 
-            add_custom_command(TARGET copy_qt
-                COMMAND ${CMAKE_COMMAND} -E copy ${_qwindows} "${target_dir}/plugins/platforms"
-                )
-            add_custom_command(TARGET copy_qt
-                COMMAND ${CMAKE_COMMAND} -E copy ${_qstyle} "${target_dir}/plugins/styles"
-                )
-            add_custom_command(TARGET copy_qt
-                COMMAND ${CMAKE_COMMAND} -E copy ${_qprint} "${target_dir}/plugins/printsupport"
-                )
+                set(_plg_file "${_plugin_dir}/${_dir}/${_name}${_suffix}.dll")
+                file(MAKE_DIRECTORY "${target_dir}/plugins/${_dir}")
+                add_custom_command(TARGET copy_qt
+                    COMMAND ${CMAKE_COMMAND} -E copy ${_plg_file} "${target_dir}/plugins/${_dir}"
+                    )
 
-            install(FILES ${_qwindows} ${INSTALL_TARGETS_DEFAULT_ARGS}/plugins/platforms)
-            install(FILES ${_qstyle} ${INSTALL_TARGETS_DEFAULT_ARGS}/plugins/styles)
-            install(FILES ${_qprint} ${INSTALL_TARGETS_DEFAULT_ARGS}/plugins/printsupport)
+                install(FILES ${_plg_file} DESTINATION "${INSTALL_ROOT}/plugins/${_dir}")
+            endforeach()
         endif()
     endif()
 endmacro()
