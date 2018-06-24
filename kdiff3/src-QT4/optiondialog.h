@@ -57,6 +57,10 @@ public:
 
     void addOptionItem(OptionItem*);
     KKeyDialog* m_pKeyDialog;
+
+protected:
+    QSize sizeHint() const;
+
 protected slots:
     virtual void slotDefault( void );
     virtual void slotOk( void );

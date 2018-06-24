@@ -347,9 +347,12 @@ void KMainWindow::slotAbout()
    QTabWidget* pTabWidget = new QTabWidget;
    l->addWidget( pTabWidget );
 
+   QHBoxLayout* pHBox = new QHBoxLayout;
+   l->addLayout(pHBox);
+
    QPushButton* pOkButton = new QPushButton(i18n("Ok"));
    connect( pOkButton, SIGNAL(clicked()), &d, SLOT(accept()));
-   l->addWidget( pOkButton );
+   pHBox->addWidget(pOkButton, 0, Qt::AlignRight);
 
    d.setWindowTitle("About " + s_appName);
    QTextBrowser* tb1 = new QTextBrowser();

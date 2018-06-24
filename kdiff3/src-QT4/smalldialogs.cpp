@@ -414,7 +414,10 @@ RegExpTester::RegExpTester( QWidget* pParent, const QString& autoMergeRegExpTool
 {
    int line=0;
    setWindowTitle(i18n("Regular Expression Tester"));
-   QGridLayout* pGrid = new QGridLayout( this );
+   QVBoxLayout* pVBox = new QVBoxLayout(this);
+   QGridLayout* pGrid = new QGridLayout;
+   pVBox->addLayout(pGrid);
+
    pGrid->setSpacing(5);
    pGrid->setMargin(5);
 
@@ -512,12 +515,18 @@ RegExpTester::RegExpTester( QWidget* pParent, const QString& autoMergeRegExpTool
    pGrid->addWidget(m_pHistorySortKeyResult,line,1);
    ++line;
 
+   QHBoxLayout* pHBox = new QHBoxLayout;
+   pVBox->addLayout(pHBox);
+
+   QSpacerItem* pSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+   pHBox->addItem(pSpacer);
+
    QPushButton* pButton = new QPushButton(i18n("OK"), this);
-   pGrid->addWidget(pButton,line,0);
+   pHBox->addWidget(pButton);
    connect( pButton, SIGNAL(clicked()), this, SLOT(accept()));
 
    pButton = new QPushButton(i18n("Cancel"), this);
-   pGrid->addWidget(pButton,line,1);
+   pHBox->addWidget(pButton);
    connect( pButton, SIGNAL(clicked()), this, SLOT(reject()));
 
    resize( 800, sizeHint().height() );

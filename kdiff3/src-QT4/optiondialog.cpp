@@ -1933,5 +1933,9 @@ void OptionDialog::slotHistoryMergeRegExpTester()
    }
 }
 
+QSize OptionDialog::sizeHint() const
+{
+	return QSize(560, 540);
+}
 
 //#include "optiondialog.moc"
