@@ -171,8 +171,7 @@ int main(int argc, char *argv[])
    else if ( sizeof(void*)==4 )
        appVersion += " (32 bit)";
    const KLocalizedString description = ki18n("Tool for Comparison and Merge of Files and Directories");
-   const KLocalizedString copyright = ki18n("(c) 2002-2014 Joachim Eibl") + "\n"
-	   + ki18n("(c) 2018 Weitian Leung");
+   const KLocalizedString copyright = ki18n("(c) 2002-2014 Joachim Eibl\n(c) 2018 Weitian Leung");
    const QByteArray& homePage = "https://github.com/timxx/kdiff3";
    const QByteArray& bugsAddress = "joachim.eibl" "@" "gmx.de";
    KAboutData aboutData( appName, appCatalog, i18nName, 
