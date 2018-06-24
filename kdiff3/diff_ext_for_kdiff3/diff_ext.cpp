@@ -500,8 +500,8 @@ DIFF_EXT::InvokeCommand(LPCMINVOKECOMMANDINFO ici)
             + i18n("This software is distributable under the BSD license.\n")
             + i18n("Some extensions for KDiff3 (c) 2006-2013 by Joachim Eibl.\n")
             + i18n("Homepage for Diff-Ext: http://diff-ext.sourceforge.net\n")
-            + i18n("Homepage for KDiff3: http://kdiff3.sourceforge.net")).c_str()
-            , (i18n("About Diff-Ext for KDiff3 ")+sBits).c_str(), MB_OK );
+            + i18n("Homepage for KDiff3: ") + TEXT("https://github.com/timxx/kdiff3")).c_str()
+            , (i18n("About Diff-Ext for KDiff3 ") + sBits).c_str(), MB_OK );
       } 
       else 
       {

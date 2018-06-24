@@ -79,7 +79,7 @@ static void showHelp()
          QMessageBox::warning( 0, "KDiff3 documentation not found",
             "Couldn't find the documentation. \n\n"
             "The documentation can also be found at the homepage:\n\n "
-            "    http://kdiff3.sourceforge.net/");
+            "    https://github.com/timxx/kdiff3");
          return;
       }
 

@@ -3,8 +3,9 @@ KDiff3-Readme for Windows
 
 Author: Joachim Eibl  (joachim.eibl@gmx.de)
 Copyright: (C) 2002-2009 by Joachim Eibl
-KDiff3-Version: 0.9.93
-Homepage: http://kdiff3.sourceforge.net
+           (C) 2018 Weitian Leung
+KDiff3-Version: 1.0.0
+Homepage: https://github.com/timxx/kdiff3
 
 KDiff3 is a program that
 - compares and merges two or three input files or directories,

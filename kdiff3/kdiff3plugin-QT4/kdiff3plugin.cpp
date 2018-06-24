@@ -267,7 +267,7 @@ void KDiff3Plugin::slotClearList()
 void KDiff3Plugin::slotAbout()
 {
    QString s = i18n("KDiff3 Menu Plugin: Copyright (C) 2008 Joachim Eibl\n"
-                    "KDiff3 homepage: http://kdiff3.sourceforge.net\n\n");
+                    "KDiff3 homepage: https://github.com/timxx/kdiff3\n\n");
    s += i18n("Using the context menu extension:\n"
              "For simple comparison of two selected files choose \"Compare\".\n"
              "If the other file is somewhere else, \"Save\" the first file for later, "

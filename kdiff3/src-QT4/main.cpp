@@ -171,14 +171,16 @@ int main(int argc, char *argv[])
    else if ( sizeof(void*)==4 )
        appVersion += " (32 bit)";
    const KLocalizedString description = ki18n("Tool for Comparison and Merge of Files and Directories");
-   const KLocalizedString copyright = ki18n("(c) 2002-2014 Joachim Eibl");
-   const QByteArray& homePage = "http://kdiff3.sourceforge.net/";
+   const KLocalizedString copyright = ki18n("(c) 2002-2014 Joachim Eibl") + "\n"
+	   + ki18n("(c) 2018 Weitian Leung");
+   const QByteArray& homePage = "https://github.com/timxx/kdiff3";
    const QByteArray& bugsAddress = "joachim.eibl" "@" "gmx.de";
    KAboutData aboutData( appName, appCatalog, i18nName, 
          appVersion, description, KAboutData::License_GPL_V2, copyright, description, 
          homePage, bugsAddress );
 
    aboutData.addAuthor(ki18n("Joachim Eibl"), KLocalizedString(), QByteArray("joachim.eibl" "@" "gmx.de"));
+   aboutData.addAuthor(ki18n("Weitian Leung"), KLocalizedString(), QByteArray("weitianleung@gmail.com"));
    aboutData.addCredit(ki18n("Eike Sauer"), ki18n("Bugfixes, Debian package maintainer") );
    aboutData.addCredit(ki18n("Sebastien Fricker"), ki18n("Windows installer") );
    aboutData.addCredit(ki18n("Stephan Binner"), ki18n("i18n-help"), QByteArray("binner" "@" "kde.org") );
