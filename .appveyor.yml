@@ -30,3 +30,7 @@ build_script:
 
 after_build:
   - cmake --build . --config %BUILD_TYPE% --target PACKAGE
+
+artifacts:
+  - path: 'build\KDiff3-*-*.exe'
+    name: KDiff3
